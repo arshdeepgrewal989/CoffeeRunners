@@ -1,56 +1,143 @@
-import React from 'react'
-import Link from 'next/link'
+import React from "react";
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
-const links = [
-  { href: 'https://zeit.co/now', label: 'ZEIT' },
-  { href: 'https://github.com/zeit/next.js', label: 'GitHub' },
-].map(link => {
-  link.key = `nav-link-${link.href}-${link.label}`
-  return link
-})
+import TextLogo from "../images/text-logo-transparent.png";
 
-const Nav = () => (
-  <nav>
-    <ul>
-      <li>
-        <Link href="/">
-          <a>Home</a>
-        </Link>
-      </li>
-      {links.map(({ key, href, label }) => (
-        <li key={key}>
-          <a href={href}>{label}</a>
-        </li>
-      ))}
-    </ul>
+const FooterNav = ({}) => (
+  <ul
+    className="navbar-nav flex-column flex-wrap mt-4"
+    style={{ height: "128px" }}
+  >
+    <li className="nav-item">
+      <Link href="/businesses">
+        <a className="nav-link">For Businesses</a>
+      </Link>
+    </li>
+    {/* <li className="nav-item">
+      <Link href="/pricing">
+        <a className="nav-link">Pricing</a>
+      </Link>
+    </li> */}
+    <li className="nav-item">
+      <Link href="/about">
+        <a className="nav-link">About</a>
+      </Link>
+    </li>
+    {/* <li className="nav-item">
+      <Link href="/faq">
+        <a className="nav-link">FAQ</a>
+      </Link>
+    </li> */}
+    {/* <li className="nav-item">
+      <Link href="/blog">
+        <a className="nav-link">Blog</a>
+      </Link>
+    </li> */}
+    <li className="nav-item">
+      <Link href="/order">
+        <a className={`nav-link`} style={{ borderRadius: "12px" }}>
+          Order
+        </a>
+      </Link>
+    </li>
+  </ul>
+);
 
-    <style jsx>{`
-      :global(body) {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
-          Helvetica, sans-serif;
-      }
-      nav {
-        text-align: center;
-      }
-      ul {
-        display: flex;
-        justify-content: space-between;
-      }
-      nav > ul {
-        padding: 4px 16px;
-      }
-      li {
-        display: flex;
-        padding: 6px 8px;
-      }
-      a {
-        color: #067df7;
-        text-decoration: none;
-        font-size: 13px;
-      }
-    `}</style>
-  </nav>
-)
+const HeaderNav = ({ alignment, onClick }) => (
+  <ul
+    className={`navbar-nav flex-${alignment} align-items-${
+      alignment === "column" ? "end w-100 mt-4" : "center"
+    }`}
+  >
+    <li className="nav-item" onClick={onClick}>
+      <Link href="/businesses">
+        <a className="nav-link">For Businesses</a>
+      </Link>
+    </li>
+    {/* <li className="nav-item" onClick={onClick}>
+      <Link href="/pricing">
+        <a className="nav-link">Pricing</a>
+      </Link>
+    </li> */}
+    <li className="nav-item" onClick={onClick}>
+      <Link href="/about">
+        <a className="nav-link">About</a>
+      </Link>
+    </li>
+    {/* <li className="nav-item" onClick={onClick}>
+      <Link href="/faq">
+        <a className="nav-link">FAQ</a>
+      </Link>
+    </li> */}
+    {/* <li className="nav-item" onClick={onClick}>
+      <Link href="/blog">
+        <a className="nav-link">Blog</a>
+      </Link>
+    </li> */}
+    <li className="nav-item" onClick={onClick}>
+      <Link href="/order">
+        <a
+          className={`nav-link btn btn-outline-secondary p-4`}
+          style={{ borderRadius: "12px" }}
+        >
+          Order
+        </a>
+      </Link>
+    </li>
+  </ul>
+);
 
-export default Nav
+const Fab = ({ onClick }) => {
+  return (
+    <button
+      onClick={onClick}
+      className="btn btn-transparent"
+      style={{ padding: "8px" }}
+    >
+      <FontAwesomeIcon
+        icon={faBars}
+        style={{
+          fontSize: "24px",
+          margin: "0",
+          height: "32px",
+          width: "32px"
+        }}
+      />
+    </button>
+  );
+};
+
+const Nav = ({ alignment, showFab }) => {
+  let [showFabMenu, setShowFabMenu] = React.useState(false);
+  return (
+    <nav className="navbar">
+      <a className="navbar-brand" href="/">
+        <img
+          src={TextLogo}
+          style={{ width: alignment === "vertical" ? "256px" : "128px" }}
+        />
+      </a>
+      {showFab ? (
+        <>
+          <Fab onClick={() => setShowFabMenu(!showFabMenu)} />
+          {showFabMenu ? (
+            <HeaderNav
+              alignment="column"
+              onClick={() => setShowFabMenu(false)}
+            />
+          ) : (
+            ""
+          )}
+        </>
+      ) : alignment === "vertical" ? (
+        <FooterNav />
+      ) : (
+        <HeaderNav alignment="row" />
+      )}
+    </nav>
+  );
+};
+
+export default Nav;
