@@ -24,6 +24,7 @@ const Layout = ({ children }) => {
         <script
           src="https://kit.fontawesome.com/0f85da58f2.js"
           crossOrigin="anonymous"
+          //
         ></script>
       </Head>
       <div className="container">
